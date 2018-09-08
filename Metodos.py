@@ -7,14 +7,14 @@ class Metodos:
         Constructor
         '''
     ## só para testar:.
-    def func(x):
+    def func(self, x):
         f = float(x**2 + x - 6)
         """""
         OBS: para essa função a raiz se encontra no ponto 1.999...
         """""
         return f
     
-    def funcaoSecante(x):
+    def funcaoSecante(self, x):
         f = float(x**3 - (13 * x) - 12)
         return f
 
@@ -22,8 +22,8 @@ class Metodos:
 
     def falsaposicao(self, a, b, tol, Ni):
         #Verificando se f(a)f(b)<0:.
-        fa = func(a)
-        fb = func(b)
+        fa = self.func(a)
+        fb = self.func(b)
         condicao = fa * fb
         
         #VERIFICA SE a e b tem sinais 
@@ -31,7 +31,7 @@ class Metodos:
             raise ValueError('A funcao deve ter sinais opostos em a e b!')
         
         x0 = ( (a * fb) - (b * fa) ) / (fb - fa)
-        fx0 = func(x0)
+        fx0 = self.func(x0)
             
         if( (fa * fx0) < 0 ):
             b = x0
@@ -47,13 +47,13 @@ class Metodos:
         while( (erro > tol) and (not done) and (Ni != 0) ):
             
             #Verificando se f(a)f(b)<0:.
-            fa = func(a)
-            fb = func(b)
+            fa = self.func(a)
+            fb = self.func(b)
             condicao = fa * fb
             
             if(condicao < 0):
                 xm = ( (a * fb) - (b * fa) ) / (fb - fa)
-                fxm = func(xm)
+                fxm = self.func(xm)
                 
                 print("(i = {0:d}) f(xm)={1:f} | f(a)={2:f} | f(b)={3:f} | xm={4:f}".format(i,fxm,fa,fb,xm))
                 
@@ -83,8 +83,8 @@ class Metodos:
         while( (erro > tol) and (i <= Ni) ):
             
             # Calculando a f(x0) e f(x1):.
-            fx0 = func(x0)
-            fx1 = func(x1)
+            fx0 = self.func(x0)
+            fx1 = self.func(x1)
             
             xn = ( ( (x0 * fx1) - (x1 * fx0) ) / (fx1 - fx0) )
             
@@ -108,9 +108,9 @@ class Metodos:
         while( (ER > tol) and (i <= Ni) ):
             
             ## Avaliamos a Função nas estimativas
-            fx0 = funcaoSecante(x0)
-            fx1 = funcaoSecante(x1)
-            fx2 = funcaoSecante(x2)
+            fx0 = self.funcaoSecante(x0)
+            fx1 = self.funcaoSecante(x1)
+            fx2 = self.funcaoSecante(x2)
             
             ## Calculamos h0, h1, sigma0, sigma1
             h0 = x1 - x0
