@@ -48,6 +48,7 @@ class Metodos:
     #   seno: sen(x)
     #   cosseno: cos(x)
     #   tangente: tan(x)
+    #   expoente: x^
     #
     # AS SEGUINTES CONSTANTES MATEMATICAS DEVEM SER ESCRITAS POR:
     #   e: euler
@@ -88,7 +89,7 @@ class Metodos:
 
                 index += 1
             elif listaElementos[index] == ')':
-                listaElementos[indexAbertura] = calcula_termo(termo) #Coloca o resultado no lugar da abertura do parenteses
+                listaElementos[indexAbertura] = self.calcula_termo(termo) #Coloca o resultado no lugar da abertura do parenteses
                 termo = ''
 
                 #Apaga todos os elementos da abertura ate o fechamento do parenteses
@@ -105,13 +106,13 @@ class Metodos:
         for elemento in listaElementos:
             termoFinal += str(elemento)
 
-        resultado = calcula_termo(termoFinal)
+        resultado = self.calcula_termo(termoFinal)
 
         return resultado
 
     def calcula_termo(self, termo):
         resultado = 0
-        listaElementos = re.split(r'(\+|\*|\/|\-)', termo)
+        listaElementos = re.split(r'(\^|\+|\*|\/|\-)', termo)
 
         #Remove espacos em branco criados no split
         for elemento in listaElementos:
@@ -196,11 +197,6 @@ class Metodos:
         resultado = listaElementos[0]
 
         return resultado
-
-    def funcaoSecante(self, x):
-        f = float(x**3 - (13 * x) - 12)
-        return f
-
 
 
     def falsaposicao(self, a, b, tol, Ni):
@@ -323,4 +319,4 @@ class Metodos:
             x2 = xn
 
             ## Incermenta i++
-            i += 1   
+            i += 1
