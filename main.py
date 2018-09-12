@@ -1,4 +1,5 @@
-import Metodos
+# -*- coding: utf-8 -*-
+from Metodos import Metodos
 
 if __name__ == '__main__':
 

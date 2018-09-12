@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import re
 import math
 
@@ -243,7 +244,11 @@ class Metodos:
                 else:
                     done = 1
 
-                erro = ((xm - x0) / xm)
+                #critério de parada:. (b-a) < tol ou |f(xm)| < tol
+                erro = (b-a)
+                if(abs(fxm) < erro):
+                    erro = abs(fxm)
+                    
                 Ni = Ni - 1
                 i = i + 1
 
@@ -320,3 +325,5 @@ class Metodos:
 
             ## Incermenta i++
             i += 1
+        
+        print("Solucao encontrada: {0:f}".format(xn))
