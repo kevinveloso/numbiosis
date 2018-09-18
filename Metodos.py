@@ -146,6 +146,24 @@ class Metodos:
 
             index += 1
 
+        #Calcula os negativos
+        index = 0
+        while index < len(listaElementos):
+
+            if listaElementos[index] == '-':
+                if index != 0 and not re.match(r'[0-9]+\.[0-9]+|[0-9]+', listaElementos[index - 1]) :
+                    listaElementos[index] = float(listaElementos[index + 1]) * (-1)
+                    del listaElementos[index + 1]
+                    index -= 1
+                elif index == 0:
+                    listaElementos[index] = float(listaElementos[index + 1]) * (-1)
+                    del listaElementos[index + 1]
+                    index -= 1
+                else: 
+                    index += 1
+            else:
+                index += 1
+
         #Calcula os exponenciais
         index = 0
         while index < len(listaElementos):
