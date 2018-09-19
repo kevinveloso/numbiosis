@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 import re
 import math
+import numpy as np
+import matplotlib.pyplot as plt
+%matplotlib
 
 class Metodos:
 
@@ -297,7 +300,7 @@ class Metodos:
                 erro = (b-a)
                 if(abs(fxm) < erro):
                     erro = abs(fxm)
-                    
+
                 Ni = Ni - 1
                 i = i + 1
 
