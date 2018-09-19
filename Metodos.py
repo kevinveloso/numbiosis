@@ -149,7 +149,6 @@ class Metodos:
         #Calcula os negativos
         index = 0
         while index < len(listaElementos):
-
             if listaElementos[index] == '-':
                 if index != 0 and not re.match(r'[0-9]+\.[0-9]+|[0-9]+', listaElementos[index - 1]) :
                     listaElementos[index] = float(listaElementos[index + 1]) * (-1)
@@ -159,7 +158,7 @@ class Metodos:
                     listaElementos[index] = float(listaElementos[index + 1]) * (-1)
                     del listaElementos[index + 1]
                     index -= 1
-                else: 
+                else:
                     index += 1
             else:
                 index += 1
@@ -217,8 +216,38 @@ class Metodos:
 
         return resultado
 
+    def aplicaFuncao(self, inputAr, outputAr):
+
+        for i in range(len(inputAr)):
+            outputAr[i] = self.calcula_expressao(self.funcaoSub(self.funcao, str(inputAr[i])))
+
+    def plotaGrafico(self, roots):
+        marker_style = dict(color='cornflowerblue', marker='o', linestyle='-',
+                    markersize=8, markerfacecoloralt='gray')
+
+        labels = []
+        for i in range(len(roots)):
+            labels.append('x' + str(i) + " = " + str('{0:.3f}'.format(roots[i])))
+
+        x = np.arange(min(roots) - 1, max(roots) + 1, 0.001)
+        y = np.zeros(len(x))
+        y2 = np.zeros(len(roots))
+        self.aplicaFuncao(x, y)
+        self.aplicaFuncao(roots, y2)
+        plt.xticks(roots, labels, rotation=50)
+        plt.margins(0.2)
+        plt.subplots_adjust(bottom=0.15)
+        plt.ion()
+        plt.plot(x, y)
+        plt.plot(roots, y2, 'bo')
+        plt.grid()
+        plt.xlabel('x')
+        plt.ylabel('f(x)')
+        plt.title(self.funcao)
 
     def falsaposicao(self, a, b, tol, Ni):
+        roots = []
+
         #Verificando se f(a)f(b)<0:.
         fa = self.calcula_expressao(self.funcaoSub(self.funcao, str(a)))
         fb = self.calcula_expressao(self.funcaoSub(self.funcao, str(b)))
@@ -230,6 +259,7 @@ class Metodos:
 
         x0 = ( (a * fb) - (b * fa) ) / (fb - fa)
         fx0 = self.calcula_expressao(self.funcaoSub(self.funcao, str(x0)))
+        roots.append(x0)
 
         if( (fa * fx0) < 0 ):
             b = x0
@@ -252,6 +282,7 @@ class Metodos:
             if(condicao < 0):
                 xm = ( (a * fb) - (b * fa) ) / (fb - fa)
                 fxm = self.calcula_expressao(self.funcaoSub(self.funcao, str(xm)))
+                roots.append(xm)
 
                 print("(i = {0:d}) f(xm)={1:f} | f(a)={2:f} | f(b)={3:f} | xm={4:f}".format(i,fxm,fa,fb,xm))
 
@@ -270,9 +301,12 @@ class Metodos:
                 Ni = Ni - 1
                 i = i + 1
 
+        self.plotaGrafico(roots)
         print("Solucao encontrada: {0:f}".format(xm))
+        return xm
 
     def secante(self, x0, x1, tol, Ni):
+        roots = []
 
         #VARIÁVEIS
         erro = 10
@@ -288,6 +322,7 @@ class Metodos:
             fx1 = self.calcula_expressao(self.funcaoSub(self.funcao, str(x1)))
 
             xn = ( ( (x0 * fx1) - (x1 * fx0) ) / (fx1 - fx0) )
+            roots.append(xn)
 
             print("(i = {0:d}) | x{0:d}={1:f}".format(i,xn))
 
@@ -298,9 +333,11 @@ class Metodos:
 
             i += 1
 
+        self.plotaGrafico(roots)
         print("Solucao encontrada: {0:f}".format(xn))
 
     def muller(self, x0, x1, x2, tol, Ni):
+        roots = []
 
         #variaveis:
         i = 1
@@ -330,6 +367,8 @@ class Metodos:
             else:
                 xn = x2 + ( (-2 * c) / (b - math.sqrt(b**2 - (4 * a * c) ) ) )
 
+            roots.append(xn)
+
             ## Calculamos o erro relativo:.
             ER = ( abs(xn - x2) / abs(xn) ) * 100
 
@@ -343,5 +382,6 @@ class Metodos:
 
             ## Incermenta i++
             i += 1
-        
+
+        self.plotaGrafico(roots)
         print("Solucao encontrada: {0:f}".format(xn))
