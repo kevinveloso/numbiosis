@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Numbiosis</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="album.css" rel="stylesheet">
+
+    <!-- Script dos Metodos -->
+    <script src="js/Metodos.js"></script>
+
+    <!-- Biblioteca Math -->
+    <script src="js/node_modules/mathjs/dist/math.js"></script>
+    <!-- Função de Guassian Elimination -->
+    <script src="js/gauss-jordan.js"></script>
+
+    <!--<script src="https://unpkg.com/mathjs@5.1.2/dist/math.min.js"></script>-->
+    <!--<script src="https://unpkg.com/linear-solve@1.2.1/gauss-jordan.js"></script>-->
+  </head>
+
+  <body>
+
+    <header>
+      <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container d-flex justify-content-between">
+          <a href="index.html" class="navbar-brand d-flex align-items-center">
+            <strong>Numbiosis</strong>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main role="main">
+
+      <section class="jumbotron text-center">
+        <div class="container">
+          <h1 class="jumbotron-heading">Newton - Sistemã Não-Linear</h1>
+        </div>
+      </section>
+
+      <div class="album py-5 bg-light">
+        <div class="container">
+          <div class="row">
+            
+            <div>
+
+              <div class="form-group row">
+                <label for="NewtonSistema01" class="col-sm-2 col-form-label">Sistema</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="NewtonSistema01" placeholder="ex: x+y-3">
+                </div>
+                <p style="color: #ff0000;">*</p>
+
+                <label for="NewtonSistema02" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="NewtonSistema02" placeholder="ex: (x*x)+(y*y)-9"">
+                </div>
+                <p style="color: #ff0000;">*</p>
+
+                <label for="NewtonSistema03" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="NewtonSistema03" placeholder="ex: (x*x)+y-5">
+                </div>
+
+                <label for="NewtonSistema04" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="NewtonSistema04" placeholder="ex: -2x+(y*y)-2">
+                </div>
+              </div>
+
+              <div class="form-group row">
+                <label for="NewtonXY" class="col-sm-2 col-form-label">Valores Inciais</label>
+
+                <div class="col-sm-1 col-form-label" style="text-align: right;">
+                  X:
+                </div>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" id="NewtonX" placeholder="ex: 1">
+                </div>
+                <p style="color: #ff0000;">*</p>
+
+                <div class="col-sm-1 col-form-label" style="text-align: right;">
+                  Y:
+                </div>
+                <div class="col-sm-3">
+                  <input type="text" class="form-control" id="NewtonY" placeholder="ex: 5">
+                </div>
+                <p style="color: #ff0000;">*</p>
+              </div>
+
+              <div class="form-group row">
+                <label for="NewtonCriterioParada" class="col-sm-2 col-form-label">Critério de Parada</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" id="NewtonCriterioParada" placeholder="ex: 3">
+                </div>
+                <p style="color: #ff0000;">*</p>
+              </div>
+
+              <p style="color: #ff0000; float: right;">* Campos Obrigatorios</p><br><br>
+
+              <a class="btn btn-sm btn-outline-secondary" onclick="SolucaoNewton()" style="float: right;">Gerar Solução</a>
+
+              <div id="Resultado"></div>
+            </div>
+
+            <script>
+              function SolucaoNewton(){
+
+                // pegar os valores dos inputs
+                let elementValue = (id) => document.getElementById(id).value;
+                let sistema01 = elementValue("NewtonSistema01");
+                let sistema02 = elementValue("NewtonSistema02");
+                let sistema03 = elementValue("NewtonSistema03");
+                let sistema04 = elementValue("NewtonSistema04");
+                let x = elementValue("NewtonX");
+                let y = elementValue("NewtonY");
+                let cParada = elementValue("NewtonCriterioParada");
+
+                // verifica se tem algum campo vazio
+                if(sistema01 === "" || sistema02 === "" || x === "" || y === "" || cParada === "") {
+                  alert("Preencha todos os campos obrigatorios!");
+                  return;
+                }
+
+                let divRsultado = document.getElementById('Resultado');
+
+                var sistema;
+
+                if (sistema03 !== "") {
+                  sistema = [sistema01.toString(), sistema02.toString(), sistema03.toString()];
+                } else if (sistema04 !== "") {
+                  sistema = [sistema01.toString(), sistema02.toString(), sistema03.toString(), sistema04.toString()];
+                } else {
+                  sistema = [sistema01.toString(), sistema02.toString()];
+                }
+
+                var x0 = [parseInt(x), parseInt(y)];
+                var e1, e2;
+
+                e1 = e2 = parseFloat(cParada);
+
+                var result = newton(sistema, x0, e1, e2);
+
+                // preeche o título com o resultado
+                if(result) {
+                  divRsultado.innerHTML =  "<h4>solução encontrada: X = " + result[0] + " e Y = " + result[1] + "</h4>";
+                } else {
+                  divRsultado.innerHTML = "";
+                  return;
+                }
+              }
+            </script>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="text-muted">
+      <div class="container">
+        <p class="float-right">
+          <a href="#">Voltar ao Topo</a>
+        </p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="assets/js/vendor/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="assets/js/vendor/holder.min.js"></script>
+  </body>
+</html>
