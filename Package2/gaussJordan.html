@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>$$ GAUSS JORDAN $$</p>
+
+<button onclick="myFunction()">TEST</button>
+
+<p id="demo"></p>
+<p id="demo1"></p>
+<p id="demo2"></p>
+<p id="demo3"></p>
+
+<script>
+function myFunction() {
+    // ENTRADA:.
+    var sistema = ['3x-0.1x-0.2x', '0.1x+7x-0.3x', '0.3x-0.2x+10x'];
+	  var b = [7.85, -19.3, 71.4];
+
+  //Matriz com valores:.
+  var matriz = [];
+  for(var i=0; i<sistema.length; i++) {
+      matriz[i] = new Array(sistema.length);
+  }
+
+  var aux = new Array(sistema.length);  //auxiliar para valores;
+  var valoresFinais = new Array(sistema.length);  //auxiliar para valores x1, x2, x3;
+  var baux = 0;
+
+
+  //Pegando os valores x1, x2, x3;
+  var i = 0;
+  sistema.forEach(linha => {
+      var valor = sistema[i]
+      matriz[i] = valor.split("x")
+      i++;
+  });
+
+  //testanto:.
+  document.getElementById("demo").innerHTML = matriz[0];
+  document.getElementById("demo1").innerHTML = matriz[1];
+  document.getElementById("demo2").innerHTML = matriz[2];
+
+
+  //calculando
+  for(var i = 0; i < sistema.length-1; i++){
+  	pivor = matriz[i][i]; //pivor
+
+    //Abaixo do pivor;
+    for(var j = i+1; j < sistema.length; j++){
+    	var x = matriz[j][i] / matriz[i][i];
+
+        //mutiplicando toda a linha do pivor;
+        for(var k = 0; k < sistema.length; k++){
+        	aux[k] = matriz[i][k] * x;
+        }
+
+        //subtraindo a linha do pivor com a linha que se deseja zera os elementos:.
+        for(var k = 0; k < sistema.length; k++){
+        	matriz[j][k] = matriz[j][k] - aux[k];
+        }
+
+        //alterando os valores de b:.
+        baux = b[i] * x;
+        b[j] = b[j] - baux;
+
+    }
+
+  }
+
+  for(var i = sistema.length-1; i > -1; i--){
+    for(var k = 0; )
+
+    //atualizando valores da matriz;
+    for (var j = i; i > i-1; i--) {
+      matriz[]
+    }
+
+  }
+
+  //testanto:.
+  document.getElementById("demo").innerHTML = matriz[0];
+  document.getElementById("demo1").innerHTML = matriz[1];
+  document.getElementById("demo2").innerHTML = matriz[2];
+  document.getElementById("demo3").innerHTML = b;
+
+}
+</script>
+
+</body>
+</html>

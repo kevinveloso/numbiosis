@@ -3,9 +3,9 @@ const math = require('mathjs');
 var linSystem = require("linear-solve");
 
 function newton(sistema, x0, e1, e2) {
-    
+
     var F = Array(sistema.length);
-    
+
     var Jacobiana = [];
     for(var i=0; i<sistema.length; i++) {
         Jacobiana[i] = new Array(2);
@@ -18,15 +18,15 @@ function newton(sistema, x0, e1, e2) {
         Jacobiana[i][1] = math.derivative(linha, 'y', {simplify: false}).toString();
         i++;
     });
-    
-        
+
+
     var x = x0[0];
     var y = x0[1];
 
-    while(true){    
+    while(true){
         //Calcula F com valor de x0
         var j = 0;
-        sistema.forEach(linha => {       
+        sistema.forEach(linha => {
             F[j] = eval(linha);
             F[j] = F[j] * -1;
             j++;
@@ -49,7 +49,7 @@ function newton(sistema, x0, e1, e2) {
             valorJacobiana[j][1] = eval(Jacobiana[j][1]);
             j++;
         });
-        
+
         var xy = linSystem.solve(valorJacobiana, F);
         var sx = xy[0];
         var sy = xy[1];
@@ -64,7 +64,7 @@ function newton(sistema, x0, e1, e2) {
             y = xk1[1];
             break;
         }
-        
+
 
         x = xk1[0];
         y = xk1[1];
