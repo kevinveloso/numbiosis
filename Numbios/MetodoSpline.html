@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Numbiosis</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="album.css" rel="stylesheet">
+
+    <!-- Script dos Metodos -->
+    <script src="js/Metodos.js"></script>
+
+    <!-- Biblioteca Math -->
+    <!--<script src="js/math.js"></script>-->
+    <!-- Função de Guassian Elimination -->
+    <!--<script src="js/gauss-jordan.js"></script>-->
+
+    <!--<script src="https://unpkg.com/mathjs@5.1.2/dist/math.min.js"></script>-->
+    <!--<script src="https://unpkg.com/linear-solve@1.2.1/gauss-jordan.js"></script>-->
+  </head>
+
+  <body>
+
+    <header>
+      <div class="navbar navbar-dark bg-dark shadow-sm">
+        <div class="container d-flex justify-content-between">
+          <a href="../index.html" class="navbar-brand d-flex align-items-center">
+            <strong>Numbiosis</strong>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main role="main">
+
+      <section class="jumbotron text-center">
+        <div class="container">
+          <h1 class="jumbotron-heading">Spline</h1>
+        </div>
+      </section>
+
+      <div class="album py-5 bg-light">
+        <div class="container">
+          <div class="row">
+            
+            <div>
+
+              <div class="form-group row">
+                <label for="SplineX" class="col-sm-2 col-form-label">x</label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="SplineX01" placeholder="ex: 0" value="0">
+                </div>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="SplineX02" placeholder="ex: 1" value="1">
+                </div>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="SplineX03" placeholder="ex: 2" value="2">
+                </div>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="SplineX04" placeholder="ex: 3" value="3">
+                </div>
+                <p style="color: #ff0000;">*</p>
+
+                <label for="SplineFx" class="col-sm-2 col-form-label">F(x)</label>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="SplineFx01" placeholder="ex: 1" value="1">
+                </div>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="SplineFx02" placeholder="ex: 2.71828182846" value="2.71828182846">
+                </div>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="SplineFx03" placeholder="ex: 7.38905609893" value="7.38905609893">
+                </div>
+                <div class="col-sm-2">
+                  <input type="text" class="form-control" id="SplineFx04" placeholder="ex: 20.0855369232" value="20.0855369232">
+                </div>
+                <p style="color: #ff0000;">*</p>
+              </div>
+
+              <p style="color: #ff0000; float: right;">* Campos Obrigatorios</p><br><br>
+
+              <a class="btn btn-sm btn-outline-secondary" onclick="SolucaoSpline()" style="float: right;">Gerar Solução</a>
+
+              <div id="Testeaqui"></div>
+              <div id="Resultado"></div>
+            </div>
+
+            <script>
+              function SolucaoSpline(){
+
+                // pegar os valores dos inputs
+                let elementValue = (id) => document.getElementById(id).value;
+                let x01 = elementValue("SplineX01");
+                let x02 = elementValue("SplineX02");
+                let x03 = elementValue("SplineX03");
+                let x04 = elementValue("SplineX04");
+
+                let fx01 = elementValue("SplineFx01");
+                let fx02 = elementValue("SplineFx02");
+                let fx03 = elementValue("SplineFx03");
+                let fx04 = elementValue("SplineFx04");
+
+                // verifica se tem algum campo vazio
+                if(x01 === "" || x02 === "" || x03 === "" || x04 === "" || fx01 === "" || fx02 === "" || fx03 === "" || fx04 ==="") {
+                  alert("Preencha todos os campos obrigatorios!");
+                  return;
+                }
+
+                let divRsultado = document.getElementById('Resultado');
+
+                var x = [x01, x02, x03, x04];
+                var fx = [fx01, fx02, fx03, fx04];
+
+                var result = splines(x, fx);
+
+                // preeche o título com o resultado
+                
+                document.getElementById('Testeaqui').innerHTML = "<h4>Solução encontrada:</h4>";
+                for(var i = 0; i <= 4-1; i++){
+                  divRsultado.innerHTML += "S("+i+") = "+result[0][i]+" + "+result[1][i].toFixed(3)+"(x − "+x[i]+") + "+result[2][i].toFixed(3)+"(x − "+x[i]+")<sup>2</sup> + "+result[3][i].toFixed(3)+"(x − "+x[i]+")<sup>3</sup> &nbsp; para x ∈ ["+x[i]+", "+x[i+1]+"]<br>";
+                }
+              }
+            </script>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="text-muted">
+      <div class="container">
+        <p class="float-right">
+          <a href="#">Voltar ao Topo</a>
+        </p>
+      </div>
+    </footer>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+    <script src="assets/js/vendor/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="assets/js/vendor/holder.min.js"></script>
+  </body>
+</html>
