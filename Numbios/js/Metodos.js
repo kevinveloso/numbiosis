@@ -68,7 +68,7 @@ function newton(sistema, x0, e1, e2) {
         y = xk1[1];
     }
 
-    return Array(x, y);
+    return Array(valorJacobiana, F, sx, sy, x, y);
 }
 
 //Função de Gauss Jordan

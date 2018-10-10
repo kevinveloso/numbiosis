@@ -55,13 +55,13 @@
               <div class="form-group row">
                 <label for="NewtonSistema01" class="col-sm-2 col-form-label">Sistema</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="NewtonSistema01" placeholder="ex: x+y-3">
+                  <input type="text" class="form-control" id="NewtonSistema01" placeholder="ex: x+y-3" value="x+y-3">
                 </div>
                 <p style="color: #ff0000;">*</p>
 
                 <label for="NewtonSistema02" class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="NewtonSistema02" placeholder="ex: (x*x)+(y*y)-9"">
+                  <input type="text" class="form-control" id="NewtonSistema02" placeholder="ex: (x*x)+(y*y)-9" value="(x*x)+(y*y)-9">
                 </div>
                 <p style="color: #ff0000;">*</p>
 
@@ -83,7 +83,7 @@
                   X:
                 </div>
                 <div class="col-sm-3">
-                  <input type="text" class="form-control" id="NewtonX" placeholder="ex: 1">
+                  <input type="text" class="form-control" id="NewtonX" placeholder="ex: 1" value="1">
                 </div>
                 <p style="color: #ff0000;">*</p>
 
@@ -91,7 +91,7 @@
                   Y:
                 </div>
                 <div class="col-sm-3">
-                  <input type="text" class="form-control" id="NewtonY" placeholder="ex: 5">
+                  <input type="text" class="form-control" id="NewtonY" placeholder="ex: 5" value="5">
                 </div>
                 <p style="color: #ff0000;">*</p>
               </div>
@@ -99,7 +99,7 @@
               <div class="form-group row">
                 <label for="NewtonCriterioParada" class="col-sm-2 col-form-label">Critério de Parada</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" id="NewtonCriterioParada" placeholder="ex: 3">
+                  <input type="text" class="form-control" id="NewtonCriterioParada" placeholder="ex: 3" value="3">
                 </div>
                 <p style="color: #ff0000;">*</p>
               </div>
@@ -151,7 +151,7 @@
 
                 // preeche o título com o resultado
                 if(result) {
-                  divRsultado.innerHTML =  "<h4>solução encontrada: X = " + result[0] + " e Y = " + result[1] + "</h4>";
+                  divRsultado.innerHTML =  "<h4>J(x) : [" + result[0] + "] * [x,y] = F(x) : [" + result[1] + "]</h4><br><br><h4>Xk = X0 : [" + x + "," + y +"] + Sx/Sy : [" + result[2] + "," + result[3] + "]</h4><br><br><h4>solução encontrada: X = " + result[4] + " e Y = " + result[5] + "</h4>";
                 } else {
                   divRsultado.innerHTML = "";
                   return;
