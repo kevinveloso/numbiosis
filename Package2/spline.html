@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<p>SPLINES</p>
+
+<button onclick="splines()">TEST</button>
+
+<p id="demo"></p>
+
+<script>
+
+function splines(){
+
+    var x = [0, 1, 2, 3];
+    var fx = [1, 2.71828182846, 7.38905609893, 20.0855369232]
+
+    if(x.length != fx.length){
+        throw Error('A quantidade de X é diferente da de F(x)');    
+    }
+
+    var h = [], alfa = [];
+    //índice do último elemento (x0, ..., xn) 
+    var n = x.length-1;
+    var a = fx;
+
+    //calculo de h / passo 1
+    for(var i = 0; i <= n-1; i++){
+        h[i] = x[i+1] - x[i];
+    }
+
+    //inicio do passo 2
+    for(var i = 1; i <= n-1; i++){
+        alfa[i] = ((3/h[i]) * (a[i+1] - a[i]) - (3/h[i-1]) * (a[i] - a[i-1])); 
+    }
+
+    // os passos 3, 4, 5 e parte do 6 resolve o problema do sistema de matriz tridiagonal pela fatoração de Crout
+    //inicio do passo 3
+    var l = [], u = [], z = [];
+    l[0] = 1;
+    u[0] = 0;
+    z[0] = 0;
+
+    //inicio do passo 4
+    for(var i = 1; i <= n-1; i++){
+        l[i] = ((2*(x[i+1] - x[i-1])) - (h[i-1] * u[i-1]));
+        u[i] = h[i]/l[i];
+        z[i] = ((alfa[i] - (h[i-1] * z[i-1]))/l[i]);
+    }
+
+    //inicio do passo 5
+    l[n] = 1;
+    z[n] = 0;
+    
+    var c = [], b = [], d = [];
+    
+    c[n] = 0;
+
+    //inicio passo 6
+    for(var j = n-1; j >= 0 ; j--){
+        c[j] = z[j] - (u[j] * c[j+1]);
+        b[j] = (((a[j+1] - a[j]) / h[j]) - ((h[j] * (c[j+1] + 2 * c[j])) / 3) );
+        d[j] = ((c[j+1] - c[j]) / (3 * h[j]));
+    }
+
+    //equações da spline
+    for(var i = 0; i <= n-1; i++){
+        document.getElementById("demo").innerHTML += "S("+i+") = "+a[i]+" + "+b[i].toFixed(3)+"(x − "+x[i]+") + "+c[i].toFixed(3)+"(x − "+x[i]+")<sup>2</sup> + "+d[i].toFixed(3)+"(x − "+x[i]+")<sup>3</sup> &nbsp; para x ∈ ["+x[i]+", "+x[i+1]+"]<br>";
+    }
+    
+}
+</script>
+
+</body>
+</html>
